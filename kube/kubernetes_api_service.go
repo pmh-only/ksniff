@@ -171,7 +171,12 @@ func (k *KubernetesApiServiceImpl) CreatePrivilegedPod(nodeName string, containe
 		NodeName:      nodeName,
 		RestartPolicy: corev1.RestartPolicyNever,
 		HostPID:       true,
-		Containers:    []corev1.Container{privilegedContainer},
+		Tolerations: []corev1.Toleration{
+			{
+				Operator: corev1.TolerationOpExists,
+			},
+		},
+		Containers: []corev1.Container{privilegedContainer},
 		Volumes: []corev1.Volume{
 			{
 				Name: "host",
